@@ -1,0 +1,170 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2">
+            <form [formGroup]="weatherSearchForm" (ngSubmit)="sendToAPI(weatherSearchForm.value)">
+                <div class="form-group">
+                    <input class="form-control mr-sm-2" type="text" id="weatherLocation" aria-describedby="weatherLocation" placeholder="Type city name" formControlName="location" ng-model="myLoc" />
+                </div>
+                <div class="text-align">
+                    <div class="col-xs-6">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div><br><br>
+                </div>
+            </form>
+            <div *ngFor="let city of Cities; let i = index" (click)="updateData(city)">
+                <button id="button"> <strong>{{ city }}</strong></button><br>
+            </div>
+            <button *ngIf="displayWeather" class="btn btn-danger btn-xs" (click)="clearArray()">Clear</button>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h1 *ngIf="displayWeather"> <strong><span style="color:#FF8C00">{{ this.getData?.city.name }} </span></strong></h1>
+            </div>
+            <div class="row" *ngIf="displayWeather">
+                <div class="col-sm-4" style="text-align:center; float:left;" [ngSwitch]="icon0">
+                    <svg-icon *ngSwitchCase="'Clouds'" src="../../assets/icons/animated/cloudy.svg" [stretch]="true" [svgStyle]="{'width.px':250,'height.px':250}">
+                    </svg-icon>
+                    <svg-icon *ngSwitchCase="'Rain'" src="../../assets/icons/animated/rainy-3.svg" [stretch]="true" [svgStyle]="{'width.px':250,'height.px':250,'margin.px':3}">
+                    </svg-icon>
+                    <svg-icon *ngSwitchCase="'Thunder'" src="../../assets/icons/animated/thunder.svg" [stretch]="true" [svgStyle]="{'width.px':250,'height.px':250,'margin.px':3}">
+                    </svg-icon>
+                    <svg-icon *ngSwitchCase="'Snow'" src="../../assets/icons/animated/snowy-3.svg" [stretch]="true" [svgStyle]="{'width.px':250,'height.px':250,'margin.px':3}">
+                    </svg-icon>
+                    <svg-icon *ngSwitchCase="'Clear'" src="../../assets/icons/animated/cloudy-day-3.svg" [stretch]="true" [svgStyle]="{'width.px':250,'height.px':250,'margin.px':3}">
+                    </svg-icon>
+                    <svg-icon *ngSwitchDefault src="../../assets/icons/animated/day.svg" [stretch]="true" [svgStyle]="{'width.px':250,'height.px':250,'margin.px':3}">
+                    </svg-icon>
+                </div>
+                <div class="col-sm-4" style="text-align:center; float:left; top: 50px;" *ngIf="displayWeather">
+                    <h4 class="text-left">
+                        <strong><span style="background-color:#FFD700"> {{ this.getData?.list[0].temp.day }} &#x2103; </span></strong>
+                    </h4>
+                    <h4 class="text-left" *ngIf="displayWeather">
+                        <strong>{{ this.getData?.list[0].weather[0].main }} ({{ this.getData?.list[0].weather[0].description }}) </strong>
+                    </h4>
+                    <h4 class="text-left" *ngIf="displayWeather">
+                        <strong>Wind: {{ this.getData?.list[0].speed }}ms {{ this.getData?.list[0].deg }}deg </strong>
+                    </h4>
+                    <h4 class="text-left" *ngIf="displayWeather">
+                        <strong> Pressure: {{ this.getData?.list[0].pressure }} </strong>
+                    </h4>
+                </div>
+            </div>
+            <div class="col-sm-2" style="text-align:center; left: 200px; background-color: #eaf7fb;" [ngSwitch]="icon0" *ngIf="displayWeather">
+                <h5 class="text-center">
+                    {{ this.date_array[0] }}
+                </h5>
+                <h5 class="text-center">
+                    {{ this.day_array[0] }}
+                </h5>
+                <svg-icon *ngSwitchCase="'Clouds'" src="../../assets/icons/static/cloudy.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Rain'" src="../../assets/icons/static/rainy-3.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Thunder'" src="../../assets/icons/static/thunder.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Snow'" src="../../assets/icons/static/snowy-3.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Clear'" src="../../assets/icons/static/cloudy-day-3.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchDefault src="../../assets/icons/static/day.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <p class="text-center">
+                    {{ this.getData?.list[0].temp.day }} &#x2103;
+                </p>
+            </div>
+            <div class="col-sm-2" style="text-align:center;left: 200px; background-color: #eafbfb;" [ngSwitch]="icon1" *ngIf="displayWeather">
+                <h5 class="text-center">
+                    {{ this.date_array[1] }}
+                </h5>
+                <h5 class="text-center">
+                    {{ this.day_array[1] }}
+                </h5>
+                <svg-icon *ngSwitchCase="'Clouds'" src="../../assets/icons/static/cloudy.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Rain'" src="../../assets/icons/static/rainy-3.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Thunder'" src="../../assets/icons/static/thunder.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Snow'" src="../../assets/icons/static/snowy-3.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Clear'" src="../../assets/icons/static/cloudy-day-3.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchDefault src="../../assets/icons/static/day.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <p class="text-center">
+                    {{ this.getData?.list[1].temp.day }} &#x2103;
+                </p>
+            </div>
+            <div class="col-sm-2" style="text-align:center; left: 200px; background-color: #eafbf7;" [ngSwitch]="icon2" *ngIf="displayWeather">
+                <h5 class="text-center">
+                    {{ this.date_array[2] }}
+                </h5>
+                <h5 class="text-center">
+                    {{ this.day_array[2] }}
+                </h5>
+                <svg-icon *ngSwitchCase="'Clouds'" src="../../assets/icons/static/cloudy.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Rain'" src="../../assets/icons/static/rainy-3.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Thunder'" src="../../assets/icons/static/thunder.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Snow'" src="../../assets/icons/static/snowy-3.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Clear'" src="../../assets/icons/static/cloudy-day-3.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchDefault src="../../assets/icons/static/day.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <p class="text-center">
+                    {{ this.getData?.list[2].temp.day }} &#x2103;
+                </p>
+            </div>
+            <div class="col-sm-2" style="text-align:center; left: 200px; background-color: #eafbf2;" [ngSwitch]="icon3" *ngIf="displayWeather">
+                <h5 class="text-center">
+                    {{ this.date_array[3] }}
+                </h5>
+                <h5 class="text-center">
+                    {{ this.day_array[3] }}
+                </h5>
+                <svg-icon *ngSwitchCase="'Clouds'" src="../../assets/icons/static/cloudy.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Rain'" src="../../assets/icons/static/rainy-3.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Thunder'" src="../../assets/icons/static/thunder.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Snow'" src="../../assets/icons/static/snowy-3.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Clear'" src="../../assets/icons/static/cloudy-day-3.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchDefault src="../../assets/icons/static/day.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <p class="text-center">
+                    {{ this.getData?.list[3].temp.day }} &#x2103;
+                </p>
+            </div>
+            <div class="col-sm-2" style="text-align:center; left: 200px; background-color: #eafbee;" [ngSwitch]="icon4" *ngIf="displayWeather">
+                <h5 class="text-center">
+                    {{ this.date_array[4] }}
+                </h5>
+                <h5 class="text-center">
+                    {{ this.day_array[4] }}
+                </h5>
+                <svg-icon *ngSwitchCase="'Clouds'" src="../../assets/icons/static/cloudy.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Rain'" src="../../assets/icons/static/rainy-3.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Thunder'" src="../../assets/icons/static/thunder.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Snow'" src="../../assets/icons/static/snowy-3.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchCase="'Clear'" src="../../assets/icons/static/cloudy-day-3.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <svg-icon *ngSwitchDefault src="../../assets/icons/static/day.svg" [stretch]="true" [svgStyle]="{'width.px':100,'height.px':100}">
+                </svg-icon>
+                <p class="text-center">
+                    {{ this.getData?.list[4].temp.day }} &#x2103;
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

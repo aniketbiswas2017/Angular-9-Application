@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "angular9-weather-app"
+    }
+  },
+  "defaultProject": "angular9-weather-app",
+  "cli": {
+    "analytics": "cf297255-fbb6-49e1-8759-7d61483ca2d0"
+  }
 }
